@@ -24,12 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chris.mordic.R;
-import com.chris.mordic.db.WordDao;
 import com.chris.mordic.data.WordBean;
 import com.chris.mordic.data.WordbookBean;
-import com.chris.mordic.db.WordbookListDao;
+import com.chris.mordic.db.WordDao;
 import com.chris.mordic.db.WordbookDao;
+import com.chris.mordic.db.WordbookListDao;
 import com.chris.mordic.protocol.WordProtocol;
+import com.chris.mordic.utils.SwipeView;
 import com.chris.mordic.utils.UIUtils;
 
 import java.io.BufferedReader;
@@ -51,7 +52,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     private ListView mListview;
-    private List<WordbookBean> datas = new ArrayList<>();
+    private List<WordbookBean> mDatas = new ArrayList<>();
     private RelativeLayout mLayout_show_words_num;
     private TextView mTv_improtWord;
 
@@ -121,12 +122,15 @@ public class MainActivity extends FragmentActivity {
 
     private void initData() {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
-        datas = wordbookListDao.getAllWordbook();
+        mDatas = wordbookListDao.getAllWordbook();
     }
     private class ViewHolder {
         ImageView im_icon;
+        SwipeView sv;
         TextView tv_bookName;
         TextView tv_wordsNum;
+        TextView item_tv_delete;
+        TextView item_tv_top;
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -135,17 +139,23 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return datas.size();
+            if (mDatas != null) {
+                return mDatas.size();
+            }
+            return 0;
         }
 
         @Override
         public Object getItem(int position) {
+            if (mDatas != null) {
+                return mDatas.get(position);
+            }
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -154,16 +164,19 @@ public class MainActivity extends FragmentActivity {
             if (convertView == null) {
                 convertView = View.inflate(MainActivity.this, R.layout.item_wordbooklist, null);
                 viewHolder = new ViewHolder();
+                viewHolder.sv = (SwipeView) convertView.findViewById(R.id.item_sv);
                 mRl_item_wordbooklist = (RelativeLayout) convertView.findViewById(R.id.rl_item_wordbooklist);
                 viewHolder.im_icon = (ImageView) convertView.findViewById(R.id.iv_wordbook);
                 viewHolder.tv_bookName = (TextView) convertView.findViewById(R.id.tv_wordbookName);
                 viewHolder.tv_wordsNum = (TextView) convertView.findViewById(R.id.tv_wordsNum);
+                viewHolder.item_tv_delete = (TextView) convertView.findViewById(R.id.item_tv_delete);
+                viewHolder.item_tv_top = (TextView)convertView.findViewById(R.id.item_tv_top);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            WordbookBean bean = datas.get(position);
+            WordbookBean bean = mDatas.get(position);
             viewHolder.tv_bookName.setText(bean.getBookName());
             viewHolder.tv_wordsNum.setText(String.valueOf(bean.getSum()));
             return convertView;

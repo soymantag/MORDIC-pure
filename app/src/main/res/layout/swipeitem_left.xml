@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_wordbooklist"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:id="@+id/iv_wordbook"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="20dp"
+        android:src="@mipmap/wordbook_icon"/>
+
+    <TextView
+
+        android:id="@+id/tv_wordbookName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/iv_wordbook"
+        android:paddingLeft="20dp"
+        android:text="历史记录"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        />
+
+    <TextView
+
+        android:id="@+id/tv_wordsNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="30dp"
+        android:text="0"
+        android:textColor="#000000"/>
+
+</RelativeLayout>

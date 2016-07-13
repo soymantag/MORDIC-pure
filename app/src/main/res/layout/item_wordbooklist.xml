@@ -1,44 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_item_wordbooklist"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    android:descendantFocusability="blocksDescendants"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <com.chris.swipeview.SwipeView
+        android:id="@+id/item_sv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
 
-    <ImageView
-        android:layout_centerVertical="true"
-        android:id="@+id/iv_wordbook"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="20dp"
-        android:src="@mipmap/wordbook_icon"/>
+        <!-- 内容区域 -->
 
-    <TextView
+        <include layout="@layout/swipeitem_left"/>
 
-        android:layout_centerVertical="true"
-        android:id="@+id/tv_wordbookName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_wordbook"
-        android:paddingLeft="20dp"
-        android:text="历史记录"
-        android:textColor="#000000"
-        />
+        <!-- 删除区域 -->
 
-    <TextView
+        <include layout="@layout/swipeitem_right"/>
+    </com.chris.swipeview.SwipeView>
 
-        android:layout_centerVertical="true"
-        android:id="@+id/tv_wordsNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:paddingRight="30dp"
-        android:text="0"
-        android:textColor="#000000"/>
-
-</RelativeLayout>
+</LinearLayout>
