@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="icon" format="reference"/>
+    <attr name="color" format="color"/>
+    <attr name="text" format="string"/>
+    <attr name="text_size" format="dimension"/>
+
+    <declare-styleable name="ChangeColorIconView">
+        <attr name="icon"/>
+        <attr name="color"/>
+        <attr name="text"/>
+        <attr name="text_size"/>
+    </declare-styleable>
+
+    <declare-styleable name="RatioLayout">
+        <!--图片宽高比-->
+        <attr name="pic_ratio" format="float"/>
+        <attr name="relative">
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <!--HeaderViewPager-->
+    <declare-styleable name="HeaderViewPager">
+        <attr name="hvp_topOffset" format="dimension"/>
+    </declare-styleable>
+</resources>

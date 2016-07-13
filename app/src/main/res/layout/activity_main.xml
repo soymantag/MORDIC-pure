@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mordic="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_home"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/tabbg"
+        android:orientation="horizontal" >
+
+        <com.chris.mordic.ui.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            mordic:icon="@mipmap/tab_normal_home"
+            mordic:text="@string/tab_home"
+            mordic:text_size="12sp" />
+
+        <com.chris.mordic.ui.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            mordic:icon="@mipmap/tab_normal_recite"
+            mordic:text="@string/tab_recite"
+            mordic:text_size="12sp" />
+
+        <com.chris.mordic.ui.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_three"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            mordic:icon="@mipmap/tab_normal_studylist"
+            mordic:text="@string/tab_studylist"
+            mordic:text_size="12sp" />
+
+        <com.chris.mordic.ui.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_four"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="8dp"
+            mordic:icon="@mipmap/tab_normal_square"
+            mordic:text="@string/tab_square"
+            mordic:text_size="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

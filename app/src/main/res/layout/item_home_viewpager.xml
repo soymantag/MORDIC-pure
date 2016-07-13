@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+    <!--    <com.chris.mordic.ui.RatioLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:pic_ratio="1.625">
+            <ImageView
+                android:id="@+id/image_homevp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/image20130506"/>
+        </com.chris.mordic.ui.RatioLayout>-->
+    <ImageView
+        android:id="@+id/image_homevp"
+        android:scaleType="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/image20130506">
+    </ImageView>
+</LinearLayout>

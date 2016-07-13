@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_splash"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/welcome"
+                android:orientation="vertical">
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/splash_blueback"/>
+    <ImageView
+        android:id="@+id/iv_splash_book"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/splash_book"/>
+    <ImageView
+        android:id="@+id/iv_splash_mordic"
+        android:layout_marginBottom="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/mordic"/>
+    <ImageView
+        android:id="@+id/iv_splash_spinner"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/spinner_black"/>-->
+
+
+</RelativeLayout>
