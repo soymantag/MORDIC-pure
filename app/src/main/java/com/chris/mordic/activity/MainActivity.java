@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                alphaView.setAlpha((float) ((visibleItemCount/10)));
+                alphaView.setAlpha((float) ((visibleItemCount / 10)));
             }
         });
         mTv_improtWord.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +124,7 @@ public class MainActivity extends FragmentActivity {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
         mDatas = wordbookListDao.getAllWordbook();
     }
+
     private class ViewHolder {
         ImageView im_icon;
         SwipeView sv;
@@ -131,11 +132,11 @@ public class MainActivity extends FragmentActivity {
         TextView tv_wordsNum;
         TextView item_tv_delete;
         TextView item_tv_top;
+        RelativeLayout mRl_item_wordbooklist;
     }
 
     private class MyAdapter extends BaseAdapter {
 
-        private RelativeLayout mRl_item_wordbooklist;
 
         @Override
         public int getCount() {
@@ -165,20 +166,45 @@ public class MainActivity extends FragmentActivity {
                 convertView = View.inflate(MainActivity.this, R.layout.item_wordbooklist, null);
                 viewHolder = new ViewHolder();
                 viewHolder.sv = (SwipeView) convertView.findViewById(R.id.item_sv);
-                mRl_item_wordbooklist = (RelativeLayout) convertView.findViewById(R.id.rl_item_wordbooklist);
+                viewHolder.mRl_item_wordbooklist = (RelativeLayout) convertView.findViewById(R.id.rl_item_wordbooklist);
                 viewHolder.im_icon = (ImageView) convertView.findViewById(R.id.iv_wordbook);
                 viewHolder.tv_bookName = (TextView) convertView.findViewById(R.id.tv_wordbookName);
                 viewHolder.tv_wordsNum = (TextView) convertView.findViewById(R.id.tv_wordsNum);
                 viewHolder.item_tv_delete = (TextView) convertView.findViewById(R.id.item_tv_delete);
-                viewHolder.item_tv_top = (TextView)convertView.findViewById(R.id.item_tv_top);
+                viewHolder.item_tv_top = (TextView) convertView.findViewById(R.id.item_tv_top);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+            viewHolder.sv.reset();
 
-            WordbookBean bean = mDatas.get(position);
+            final WordbookBean bean = mDatas.get(position);
             viewHolder.tv_bookName.setText(bean.getBookName());
             viewHolder.tv_wordsNum.setText(String.valueOf(bean.getSum()));
+            viewHolder.sv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,position+"OnClick",Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            viewHolder.item_tv_delete.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mDatas.remove(bean);
+                    notifyDataSetChanged();
+                }
+            });
+            viewHolder.item_tv_top.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    mDatas.remove(bean);
+                    mDatas.add(0, bean);
+                    notifyDataSetChanged();
+                }
+            });
             return convertView;
         }
     }
@@ -235,20 +261,20 @@ public class MainActivity extends FragmentActivity {
                             WordbookDao wordbookDao = new WordbookDao(MainActivity.this);
 
                             WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
-                            if(wordbookListDao.getData("c_"+fileName)==null){
-                                wordbookDao.createTable("c_"+fileName);
+                            if (wordbookListDao.getData("c_" + fileName) == null) {
+                                wordbookDao.createTable("c_" + fileName);
                             }
                             while ((line = mBufferedReader.readLine()) != null) {
 
-                                System.out.println("$$$$$$line:"+line);
+                                System.out.println("$$$$$$line:" + line);
                                 if (line.contains("&&")) {
 
                                 } else {
                                     String word = line.trim();
                                     WordBean wordBean = wordProtocol.loadData(word);
 
-                                    System.out.println("wordBean.word_name:"+wordBean.word_name);
-                                    if(wordBean.word_name==null){
+                                    System.out.println("wordBean.word_name:" + wordBean.word_name);
+                                    if (wordBean.word_name == null) {
                                         break;
                                     }
                                     //序列化一个对象(存储到字节数组)
@@ -258,18 +284,18 @@ public class MainActivity extends FragmentActivity {
 
                                     wordDao.replace(word, baos.toByteArray(), "0");
                                     System.out.println("replace into is ok");
-                                    wordbookDao.add("c_"+fileName,word);
+                                    wordbookDao.add("c_" + fileName, word);
 
                                     WordDao wordDao1 = new WordDao(MainActivity.this);
                                     byte[] beanByte = wordDao1.getBean(word);
                                     //反序列化,将该对象恢复(存储到字节数组)
                                     ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(beanByte));
-                                    WordBean p = (WordBean)ois.readObject();
-                                    System.out.println("wordname:"+p.word_name);
+                                    WordBean p = (WordBean) ois.readObject();
+                                    System.out.println("wordname:" + p.word_name);
                                 }
                             }
 
-                            wordbookListDao.add("c_"+fileName,0,0,wordDao.getTotalRows());
+                            wordbookListDao.add("c_" + fileName, 0, 0, wordDao.getTotalRows());
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -289,7 +315,7 @@ public class MainActivity extends FragmentActivity {
 
                             System.out.println("导入失败,请检查网络连接");
                             e.printStackTrace();
-                        }finally {
+                        } finally {
                             try {
                                 mReader.close();
                                 mBufferedReader.close();

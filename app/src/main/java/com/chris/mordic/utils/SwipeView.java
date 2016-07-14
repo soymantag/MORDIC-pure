@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Timer;
+
 /**
  * Created by chris on 7/13/16.
  * Email: soymantag@163.coom
@@ -20,13 +22,14 @@ public class SwipeView extends ViewGroup {
 
     private boolean isOpen = false;
     private OnSwipeListener mListener;
-
+    Context mContext;
     public SwipeView(Context context) {
         this(context, null);
     }
 
     public SwipeView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext=context;
         mHelper = ViewDragHelper.create(this, new MyCallBack());
     }
 
@@ -57,11 +60,86 @@ public class SwipeView extends ViewGroup {
         mLeftView.layout(0, 0, mLeftView.getMeasuredWidth(), mLeftView.getMeasuredHeight());
         mRightView.layout(mLeftView.getMeasuredWidth(), 0, mLeftView.getMeasuredWidth() + mRightView.getMeasuredWidth(), mLeftView.getMeasuredHeight());
     }
+    private float mDownX;
+    private float mDownY;
+    long timeClick=0;
+    boolean longClickFlag=false;
+    Timer timer=new Timer();//生成一个Timer对象
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+
+/*        TimerTask task =new TimerTask() {
+            @Override
+            public void run() {
+                longClickFlag=true;
+                if(mOnLongClickListener!=null){
+                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mOnLongClickListener.onLongClick(SwipeView.this);
+                        }
+                    });
+
+                }
+            }
+        };*/
+        mHelper.processTouchEvent(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                timeClick= System.currentTimeMillis();
+                mDownX = ev.getX();
+                mDownY = ev.getY();
+
+                //longClickFlag=false;
+                //timer.schedule(task, 1000);
+
+                break;
+
+/*            case MotionEvent.ACTION_MOVE:
+                float moveX = ev.getX();
+                float moveY = ev.getY();
+
+                if (Math.abs(moveX - mDownX) > Math.abs(moveY - mDownY)) {
+                    // 水平方向移动
+                    return true;
+                }
+                break;*/
+            case MotionEvent.ACTION_UP:
+/*                timer.cancel();
+                timer.purge();
+                if(longClickFlag){
+                    break;
+                }*/
+/*                longClickFlag =1;
+                if((System.currentTimeMillis()-timeClick)>500){
+                    if(mOnLongClickListener!=null){
+                        mOnLongClickListener.onLongClick(this);
+                    }
+                    break;
+                }*/
+                float upX = ev.getX();
+                float upY = ev.getY();
+                if(Math.abs(upX-mDownX)<10 && Math.abs(upY -mDownY)<10){
+                    if(mOnClickListener!=null){
+                        mOnClickListener.onClick(this);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+    View.OnClickListener mOnClickListener =null;
+    @Override
+    public void setOnClickListener(OnClickListener l) {
+        mOnClickListener=l;
+    }
+    View.OnLongClickListener mOnLongClickListener=null;
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        mHelper.processTouchEvent(event);
-        return true;
+    public void setOnLongClickListener(OnLongClickListener l) {
+        mOnLongClickListener=l;
     }
 
     class MyCallBack extends ViewDragHelper.Callback {
@@ -156,6 +234,7 @@ public class SwipeView extends ViewGroup {
         }
     }
 
+
     public void setOnSwipeListener(OnSwipeListener listener) {
         this.mListener = listener;
     }
@@ -163,4 +242,5 @@ public class SwipeView extends ViewGroup {
     public interface OnSwipeListener {
         void onSwipeChanged(SwipeView view, boolean isOpen);
     }
+
 }
