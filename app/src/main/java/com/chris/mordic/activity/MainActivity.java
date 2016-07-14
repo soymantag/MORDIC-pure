@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -119,6 +118,9 @@ public class MainActivity extends FragmentActivity {
     private void initData() {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
         mDatas = wordbookListDao.getAllWordbook();
+        for(WordbookBean w:mDatas){
+            System.out.println("mdatas:"+w.getBookName());
+        }
     }
 
     private class ViewHolder {
@@ -224,6 +226,7 @@ public class MainActivity extends FragmentActivity {
                         })
                         .setNegativeButton("取消", null)
                         .show();
+
             }
         }
     }
@@ -247,7 +250,6 @@ public class MainActivity extends FragmentActivity {
                     public void run() {
                         try {
 
-                            SystemClock.sleep(2000);
                             File file = new File(path);
                             String fileName = file.getName();
                             mReader = new FileReader(path);
@@ -293,15 +295,27 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
 
-                            wordbookListDao.add("c_" + fileName, 0, 0, wordDao.getTotalRows());
+                            wordbookListDao.add("c_" + fileName, 0, 0, wordbookDao.getTotalRows("c_" + fileName));
+                            mDatas = wordbookListDao.getAllWordbook();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mListview.invalidate();
+                                }
+                            });
+
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                             //Toast.makeText(UIUtils.getContext(), "错误:文件未找到", Toast.LENGTH_SHORT).show();
                             System.out.println("错误:文件未找到");
                         } catch (IOException e) {
-                            //Toast.makeText(UIUtils.getContext(), "导入失败,文件不可读/写", Toast.LENGTH_SHORT).show();
-                            System.out.println("导入失败,文件不可读/写");
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(UIUtils.getContext(), "导入失败,文件不可读", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             e.printStackTrace();
                         } catch (Exception e) {
                             MainActivity.this.runOnUiThread(new Runnable() {

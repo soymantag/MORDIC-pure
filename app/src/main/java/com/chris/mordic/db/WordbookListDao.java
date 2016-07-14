@@ -71,8 +71,8 @@ public class WordbookListDao {
         List<WordbookBean> Wordbooks = new ArrayList<>();
         SQLiteDatabase db = mWordDbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select wordbook,index_disordered,index_ordered,word_sum from "+Constants.Database.WordbookListTable,null);
-        WordbookBean wordbookBean=new WordbookBean();
         while(cursor.moveToNext()){
+            WordbookBean wordbookBean=new WordbookBean();
             wordbookBean.setBookName(cursor.getString(0));
             wordbookBean.setIndex_disordered(cursor.getInt(1));
             wordbookBean.setIndex_ordered(cursor.getInt(2));

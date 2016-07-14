@@ -32,10 +32,6 @@ public class WordActivity extends Activity{
     ViewPager mV_word;
     @InjectView(R.id.rl_word)
     RelativeLayout mRelativeLayout;
-    //    @InjectView(R.id.tv_wordIndex)
-    //    TextView mTv_wordIndex;
-    //    @InjectView(R.id.tv_word)
-    //    TextView mTv_word;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
