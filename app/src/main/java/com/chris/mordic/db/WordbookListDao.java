@@ -70,7 +70,7 @@ public class WordbookListDao {
     public List<WordbookBean> getAllWordbook(){
         List<WordbookBean> Wordbooks = new ArrayList<>();
         SQLiteDatabase db = mWordDbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select wordbook,index_disordered,index_ordered,word_sum from "+Constants.Database.WordbookListTable,null);
+        Cursor cursor = db.rawQuery("select wordbook,index_disordered,index_ordered,word_sum from "+Constants.Database.WordbookListTable+" order by _id desc",null);
         while(cursor.moveToNext()){
             WordbookBean wordbookBean=new WordbookBean();
             wordbookBean.setBookName(cursor.getString(0));
@@ -97,4 +97,11 @@ public class WordbookListDao {
         db.close();
         return wordbookBean;
     }
+    public void deleteWordbook(String wordbook){
+        SQLiteDatabase db = mWordDbOpenHelper.getWritableDatabase();
+        db.execSQL("drop table "+wordbook);
+        delete(wordbook);
+        db.close();
+    }
+
 }

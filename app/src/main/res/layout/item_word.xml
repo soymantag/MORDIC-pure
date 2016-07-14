@@ -31,6 +31,7 @@
         android:ellipsize="end"/>
     <TextView
         android:id="@+id/translation"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/tv_word"
         android:layout_above="@id/bottom"
         android:layout_width="match_parent"

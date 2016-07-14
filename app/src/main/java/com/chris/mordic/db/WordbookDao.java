@@ -61,10 +61,10 @@ public class WordbookDao {
     public List<String> getAllWords(String table){
         List<String> words = new ArrayList<>();
         SQLiteDatabase db = mWordDbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select _id,word from "+table,null);
+        Cursor cursor = db.rawQuery("select word from "+table,null);
 
         while(cursor.moveToNext()){
-            words.add(String.valueOf(cursor.getInt(0))+cursor.getString(1));
+            words.add(cursor.getString(0));
         }
         cursor.close();
         db.close();

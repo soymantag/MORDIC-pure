@@ -54,6 +54,7 @@ public class MainActivity extends FragmentActivity {
     private List<WordbookBean> mDatas = new ArrayList<>();
     private RelativeLayout mLayout_show_words_num;
     private TextView mTv_improtWord;
+    private MyAdapter mWordbookListAdapter;
 
 
     @Override
@@ -84,7 +85,8 @@ public class MainActivity extends FragmentActivity {
         final View alphaView = mLayout_show_words_num.findViewById(R.id.alphaView);
 
         mListview.addHeaderView(mLayout_show_words_num);//addHeaderView要在setAdapter前调用,否则会出错
-        mListview.setAdapter(new MyAdapter());
+        mWordbookListAdapter = new MyAdapter();
+        mListview.setAdapter(mWordbookListAdapter);
         //需要在xml文件中设置属性android:descendantFocusability="blocksDescendants",否则点击事件会被子组件消费
         mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -116,11 +118,12 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void initData() {
+        initWordbookListDatas();
+    }
+
+    private void initWordbookListDatas() {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
         mDatas = wordbookListDao.getAllWordbook();
-        for(WordbookBean w:mDatas){
-            System.out.println("mdatas:"+w.getBookName());
-        }
     }
 
     private class ViewHolder {
@@ -185,6 +188,7 @@ public class MainActivity extends FragmentActivity {
                     //Toast.makeText(MainActivity.this,position+"OnClick",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(MainActivity.this,WordActivity.class);
+                    intent.putExtra("wordbook",bean.getBookName());
                     startActivity(intent);
                 }
             });
@@ -192,6 +196,23 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View v) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("删除生词本")
+                            .setMessage("确定要删除\""+ mDatas.get(position).getBookName()+"\"吗?")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new WordbookListDao(MainActivity.this).deleteWordbook(mDatas.get(position).getBookName());
+                                    initWordbookListDatas();
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).show();
                     mDatas.remove(bean);
                     notifyDataSetChanged();
                 }
@@ -200,8 +221,8 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View v) {
-                    mDatas.remove(bean);
-                    mDatas.add(0, bean);
+                    new WordbookListDao(MainActivity.this).add(bean.getBookName(),bean.getIndex_disordered(),bean.getIndex_ordered(),bean.getSum());
+                    initWordbookListDatas();
                     notifyDataSetChanged();
                 }
             });
@@ -295,12 +316,12 @@ public class MainActivity extends FragmentActivity {
                                 }
                             }
 
-                            wordbookListDao.add("c_" + fileName, 0, 0, wordbookDao.getTotalRows("c_" + fileName));
+                            wordbookListDao.add("c_" + fileName, 1, 1, wordbookDao.getTotalRows("c_" + fileName));
                             mDatas = wordbookListDao.getAllWordbook();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mListview.invalidate();
+                                    mWordbookListAdapter.notifyDataSetChanged();
                                 }
                             });
 

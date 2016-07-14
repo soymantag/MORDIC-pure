@@ -17,8 +17,17 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.chris.mordic.R;
+import com.chris.mordic.data.WordBean;
+import com.chris.mordic.data.WordbookBean;
+import com.chris.mordic.db.WordDao;
+import com.chris.mordic.db.WordbookDao;
+import com.chris.mordic.db.WordbookListDao;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -32,7 +41,12 @@ public class WordActivity extends Activity{
     ViewPager mV_word;
     @InjectView(R.id.rl_word)
     RelativeLayout mRelativeLayout;
+    private List<String> mDatas;
+    private WordbookBean mWordbookBean;
+
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -48,6 +62,10 @@ public class WordActivity extends Activity{
         }
         setContentView(R.layout.activity_word);
         ButterKnife.inject(this);
+
+        String wordbookName = this.getIntent().getStringExtra("wordbook");
+        mWordbookBean = new WordbookListDao(this).getData(wordbookName);
+        mDatas = new WordbookDao(this).getAllWords(wordbookName);
         //mV_word.setOffscreenPageLimit(3);
         mV_word.setPageMargin(10);
         mRelativeLayout.setOnTouchListener(new View.OnTouchListener() {
@@ -59,7 +77,7 @@ public class WordActivity extends Activity{
         mV_word.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return 10;
+                return mDatas.size();
             }
 
             @Override
@@ -67,7 +85,7 @@ public class WordActivity extends Activity{
                 return view==object;
             }
             @Override
-            public Object instantiateItem(ViewGroup container, int position) {
+            public Object instantiateItem(ViewGroup container, final int position) {
 
                 //                TextView textView = new TextView(MainActivity.this);
                 //                textView.setText("第"+position+"页");
@@ -77,8 +95,33 @@ public class WordActivity extends Activity{
                 //                container.addView(textView);
                 View item_word = View.inflate(WordActivity.this,R.layout.item_word,null);
                 //ButterKnife.inject(item_word);
-                TextView mTv_word = (TextView) item_word.findViewById(R.id.tv_word);
-                mTv_word.setText("apple");
+                TextView tv_wordIndex = (TextView) item_word.findViewById(R.id.tv_wordIndex);
+                tv_wordIndex.setText(""+mWordbookBean.getIndex_disordered()+"/"+mWordbookBean.getSum());
+                TextView tv_word = (TextView) item_word.findViewById(R.id.tv_word);
+                tv_word.setText(mDatas.get(position));
+                final TextView tv_translation = (TextView) item_word.findViewById(R.id.translation);
+                tv_translation.setText("点击查看释义");
+                tv_translation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        byte[] beanByte = new WordDao(WordActivity.this).getBean(mDatas.get(position));
+                        //反序列化,将该对象恢复(存储到字节数组)
+                        try {
+                            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(beanByte));
+                            WordBean w = (WordBean) ois.readObject();
+                            String trans = "英:[" +w.symbols.get(0).ph_en+"] 美:["+w.symbols.get(0).ph_am+"]\n";
+                            List<WordBean.Part> parts = w.symbols.get(0).parts;
+                            for(WordBean.Part part : parts){
+                                trans=trans+part.part+"  "+part.means.toString()+"\n";
+                            }
+                            tv_translation.setText(trans);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 final TextView mtv_learned = (TextView) item_word.findViewById(R.id.learned);
                 mtv_learned.setOnClickListener(new View.OnClickListener() {
                     @Override
