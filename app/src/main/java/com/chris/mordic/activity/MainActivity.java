@@ -83,10 +83,6 @@ public class MainActivity extends FragmentActivity {
 
         mLayout_show_words_num = (RelativeLayout) View.inflate(this, R.layout.layout_show_words_num, null);
         final View alphaView = mLayout_show_words_num.findViewById(R.id.alphaView);
-/*        RelativeLayout ll1 = (RelativeLayout) mLayout_show_words_num.findViewById(R.id.ll1);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ll1.getLayoutParams();
-        layoutParams.setMargins(0,getStatusBarHeight()+ UIUtils.dip2Px(5),0,0);
-        ll1.setLayoutParams(layoutParams);*/
 
         mListview.addHeaderView(mLayout_show_words_num);//addHeaderView要在setAdapter前调用,否则会出错
         mListview.setAdapter(new MyAdapter());
@@ -184,8 +180,10 @@ public class MainActivity extends FragmentActivity {
             viewHolder.sv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(MainActivity.this,position+"OnClick",Toast.LENGTH_SHORT).show();
-
+                    //Toast.makeText(MainActivity.this,position+"OnClick",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this,WordActivity.class);
+                    startActivity(intent);
                 }
             });
             viewHolder.item_tv_delete.setOnClickListener(new View.OnClickListener() {
