@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -99,14 +98,6 @@ public class MainActivity extends FragmentActivity {
         mListview.addHeaderView(mLayout_show_words_num);//addHeaderView要在setAdapter前调用,否则会出错
         mWordbookListAdapter = new MyAdapter();
         mListview.setAdapter(mWordbookListAdapter);
-        //需要在xml文件中设置属性android:descendantFocusability="blocksDescendants",否则点击事件会被子组件消费
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         mTv_improtWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +136,6 @@ public class MainActivity extends FragmentActivity {
     private void initWordbookListDatas() {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
         mDatas = wordbookListDao.getAllWordbook();
-        System.out.println("1--mDatas.size():"+mDatas.size());
     }
 
     private class ViewHolder {
@@ -214,9 +204,7 @@ public class MainActivity extends FragmentActivity {
                     startActivity(intent);
                 }
             });
-            System.out.println("2--mDatas.size():"+mDatas.size());
             viewHolder.item_tv_delete.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(MainActivity.this)
@@ -225,9 +213,6 @@ public class MainActivity extends FragmentActivity {
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    System.out.println("delete position:" + position);
-                                    System.out.println("mDatas.size():"+mDatas.size());
-                                    System.out.println("mDatas.get(position):"+mDatas.get(position));
                                     new WordbookListDao(MainActivity.this).deleteWordbook(mDatas.get(position).getBookName());
                                     initData();
                                     initNum();
@@ -240,8 +225,6 @@ public class MainActivity extends FragmentActivity {
 
                                 }
                             }).show();
-                    mDatas.remove(bean);
-                    notifyDataSetChanged();
                 }
             });
             viewHolder.item_tv_top.setOnClickListener(new View.OnClickListener() {
