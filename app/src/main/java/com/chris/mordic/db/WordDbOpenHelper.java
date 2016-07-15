@@ -21,6 +21,9 @@ public class WordDbOpenHelper extends SQLiteOpenHelper{
         db.execSQL("create table WordTable(word text primary key,word_bean BLOB,word_notes text)");
         db.execSQL("create table WordbookListTable(_id integer primary key autoincrement," +
                 "wordbook text,index_disordered integer,index_ordered integer,word_sum integer)");
+        db.execSQL("create table recite_table(_id integer primary key autoincrement,word text)");
+        db.execSQL("create table learned_table(_id integer primary key autoincrement,word text)");
+        db.execSQL("create table unlearned_table(_id integer primary key autoincrement,word text)");
     }
 
     @Override

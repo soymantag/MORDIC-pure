@@ -49,6 +49,7 @@ public class WordDao {
         SQLiteDatabase db = mWordDbOpenHelper.getWritableDatabase();
         db.delete(Constants.Database.wordtb, Constants.Database.word+"=?;",new String[]{word});
         //delete from wordtb where word=word
+        db.close();
         return true;
     }
 
@@ -70,6 +71,7 @@ public class WordDao {
             bean = null;
         }
         cursor.close();
+        db.close();
         return bean;
     }
     public int getTotalRows(){
@@ -79,6 +81,7 @@ public class WordDao {
         if (cursor.moveToNext())
             totalRows = cursor.getInt(0);
         cursor.close();
+        db.close();
         return totalRows;
     }
 

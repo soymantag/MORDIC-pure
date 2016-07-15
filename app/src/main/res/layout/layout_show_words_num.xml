@@ -53,7 +53,7 @@
 
 
         <TextView
-            android:id="@+id/textview_wordNum"
+            android:id="@+id/tv_allWordsNum"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_below="@id/textview_text1"
@@ -65,7 +65,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@id/textview_wordNum"
+            android:layout_below="@id/tv_allWordsNum"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -84,6 +84,7 @@
                     android:textSize="14sp"/>
 
                 <TextView
+                    android:id="@+id/tv_learnedNum"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
@@ -119,6 +120,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
+                        android:id="@+id/tv_reciteNum"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -150,11 +152,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="未学习"
+                        android:text="未掌握"
                         android:textColor="#87d3ee"
                         android:textSize="14sp"/>
 
                     <TextView
+                        android:id="@+id/tv_unlearnedNum"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -165,9 +168,4 @@
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-    <View
-        android:id="@+id/alphaView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ff3fa5dc"/>
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,16 +88,10 @@ public class WordActivity extends Activity{
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
 
-                //                TextView textView = new TextView(MainActivity.this);
-                //                textView.setText("第"+position+"页");
-                //                textView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-                //                textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                //                textView.setTextSize(50);
-                //                container.addView(textView);
                 View item_word = View.inflate(WordActivity.this,R.layout.item_word,null);
                 //ButterKnife.inject(item_word);
                 TextView tv_wordIndex = (TextView) item_word.findViewById(R.id.tv_wordIndex);
-                tv_wordIndex.setText(""+mWordbookBean.getIndex_disordered()+"/"+mWordbookBean.getSum());
+                tv_wordIndex.setText(""+position+"/"+mDatas.size());
                 TextView tv_word = (TextView) item_word.findViewById(R.id.tv_word);
                 tv_word.setText(mDatas.get(position));
                 final TextView tv_translation = (TextView) item_word.findViewById(R.id.translation);
@@ -109,12 +104,13 @@ public class WordActivity extends Activity{
                         try {
                             ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(beanByte));
                             WordBean w = (WordBean) ois.readObject();
-                            String trans = "英:[" +w.symbols.get(0).ph_en+"] 美:["+w.symbols.get(0).ph_am+"]\n";
+                            String trans = "   英:[" +w.symbols.get(0).ph_en+"]    美:["+w.symbols.get(0).ph_am+"]\n";
                             List<WordBean.Part> parts = w.symbols.get(0).parts;
                             for(WordBean.Part part : parts){
                                 trans=trans+part.part+"  "+part.means.toString()+"\n";
                             }
                             tv_translation.setText(trans);
+                            tv_translation.setGravity(Gravity.NO_GRAVITY);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (ClassNotFoundException e) {

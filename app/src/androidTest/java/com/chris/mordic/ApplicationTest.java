@@ -23,7 +23,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void test_add() throws Exception {
         WordbookDao dao = new WordbookDao(getContext());
         for(int i=0;i<100;i++){
-            dao.add("testtb1","apple"+i);
+            dao.add("testtb1","apple"+i,"unlearned");
         }
     }
     public void test_getwords() throws Exception {
@@ -37,7 +37,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void test_replace() throws Exception {
         WordbookDao dao = new WordbookDao(getContext());
-            dao.replace("testtb1",1,null);
+            dao.replace("testtb1",1,null,"unlearned");
 
     }
 

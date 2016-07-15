@@ -65,6 +65,7 @@ public class WordbookListDao {
         cursor.moveToNext();
         int totalRows = cursor.getInt(0);
         cursor.close();
+        db.close();
         return totalRows;
     }
     public List<WordbookBean> getAllWordbook(){

@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -55,6 +54,14 @@ public class MainActivity extends FragmentActivity {
     private RelativeLayout mLayout_show_words_num;
     private TextView mTv_improtWord;
     private MyAdapter mWordbookListAdapter;
+    private int mAllWordsNum = 0;
+    private int mUnlearnedWordsNum = 0;
+    private int mLearnedWordsNum = 0;
+    private int mReciteWordsNum = 0;
+    private TextView mTv_allWordsNum;
+    private TextView mTv_learnedNum;
+    private TextView mTv_reciteNum;
+    private TextView mTv_unlearnedNum;
 
 
     @Override
@@ -82,7 +89,12 @@ public class MainActivity extends FragmentActivity {
         mTv_improtWord = (TextView) findViewById(R.id.tv_importWord);
 
         mLayout_show_words_num = (RelativeLayout) View.inflate(this, R.layout.layout_show_words_num, null);
-        final View alphaView = mLayout_show_words_num.findViewById(R.id.alphaView);
+        mTv_allWordsNum = (TextView) mLayout_show_words_num.findViewById(R.id.tv_allWordsNum);
+        mTv_learnedNum = (TextView) mLayout_show_words_num.findViewById(R.id.tv_learnedNum);
+        mTv_reciteNum = (TextView) mLayout_show_words_num.findViewById(R.id.tv_reciteNum);
+        mTv_unlearnedNum = (TextView) mLayout_show_words_num.findViewById(R.id.tv_unlearnedNum);
+
+        initNum();
 
         mListview.addHeaderView(mLayout_show_words_num);//addHeaderView要在setAdapter前调用,否则会出错
         mWordbookListAdapter = new MyAdapter();
@@ -94,17 +106,7 @@ public class MainActivity extends FragmentActivity {
                 Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
             }
         });
-        mListview.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                alphaView.setAlpha((float) ((visibleItemCount / 10)));
-            }
-        });
         mTv_improtWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,13 +119,33 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    private void initNum() {
+        mTv_allWordsNum.setText(mAllWordsNum + "");
+        mTv_learnedNum.setText(mLearnedWordsNum + "");
+        mTv_unlearnedNum.setText(mUnlearnedWordsNum + "");
+        mTv_reciteNum.setText(mReciteWordsNum + "");
+    }
+
     private void initData() {
+        mDatas.clear();
+        mAllWordsNum = 0;
+        mUnlearnedWordsNum = 0;
+        mLearnedWordsNum = 0;
+        mReciteWordsNum = 0;
         initWordbookListDatas();
+        WordbookDao wordbookDao = new WordbookDao(MainActivity.this);
+        for (WordbookBean wordbookBean : mDatas) {
+            mAllWordsNum += wordbookBean.getSum();
+            mUnlearnedWordsNum += wordbookDao.getUnlearnedWordsNum(wordbookBean.getBookName());
+            mLearnedWordsNum += wordbookDao.getLearnedWordsNum(wordbookBean.getBookName());
+            mReciteWordsNum += wordbookDao.getReciteWordsNum(wordbookBean.getBookName());
+        }
     }
 
     private void initWordbookListDatas() {
         WordbookListDao wordbookListDao = new WordbookListDao(MainActivity.this);
         mDatas = wordbookListDao.getAllWordbook();
+        System.out.println("1--mDatas.size():"+mDatas.size());
     }
 
     private class ViewHolder {
@@ -187,23 +209,28 @@ public class MainActivity extends FragmentActivity {
                 public void onClick(View v) {
                     //Toast.makeText(MainActivity.this,position+"OnClick",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.setClass(MainActivity.this,WordActivity.class);
-                    intent.putExtra("wordbook",bean.getBookName());
+                    intent.setClass(MainActivity.this, WordActivity.class);
+                    intent.putExtra("wordbook", bean.getBookName());
                     startActivity(intent);
                 }
             });
+            System.out.println("2--mDatas.size():"+mDatas.size());
             viewHolder.item_tv_delete.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("删除生词本")
-                            .setMessage("确定要删除\""+ mDatas.get(position).getBookName()+"\"吗?")
+                            .setMessage("确定要删除\"" + mDatas.get(position).getBookName() + "\"吗?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    System.out.println("delete position:" + position);
+                                    System.out.println("mDatas.size():"+mDatas.size());
+                                    System.out.println("mDatas.get(position):"+mDatas.get(position));
                                     new WordbookListDao(MainActivity.this).deleteWordbook(mDatas.get(position).getBookName());
-                                    initWordbookListDatas();
+                                    initData();
+                                    initNum();
                                     notifyDataSetChanged();
                                 }
                             })
@@ -221,13 +248,20 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void onClick(View v) {
-                    new WordbookListDao(MainActivity.this).add(bean.getBookName(),bean.getIndex_disordered(),bean.getIndex_ordered(),bean.getSum());
+                    new WordbookListDao(MainActivity.this).add(bean.getBookName(), bean.getIndex_disordered(), bean.getIndex_ordered(), bean.getSum());
                     initWordbookListDatas();
                     notifyDataSetChanged();
                 }
             });
             return convertView;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+        initNum();
     }
 
     @Override
@@ -296,7 +330,7 @@ public class MainActivity extends FragmentActivity {
 
                                     System.out.println("wordBean.word_name:" + wordBean.word_name);
                                     if (wordBean.word_name == null) {
-                                        break;
+                                        continue;
                                     }
                                     //序列化一个对象(存储到字节数组)
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -305,7 +339,7 @@ public class MainActivity extends FragmentActivity {
 
                                     wordDao.replace(word, baos.toByteArray(), "0");
                                     System.out.println("replace into is ok");
-                                    wordbookDao.add("c_" + fileName, word);
+                                    wordbookDao.add("c_" + fileName, word, "unlearned");
 
                                     WordDao wordDao1 = new WordDao(MainActivity.this);
                                     byte[] beanByte = wordDao1.getBean(word);
@@ -318,9 +352,12 @@ public class MainActivity extends FragmentActivity {
 
                             wordbookListDao.add("c_" + fileName, 1, 1, wordbookDao.getTotalRows("c_" + fileName));
                             mDatas = wordbookListDao.getAllWordbook();
+                            initData();
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    initNum();
                                     mWordbookListAdapter.notifyDataSetChanged();
                                 }
                             });
