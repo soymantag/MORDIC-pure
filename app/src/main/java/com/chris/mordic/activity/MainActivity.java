@@ -43,9 +43,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Email: soymantag@163.coom
- */
 public class MainActivity extends FragmentActivity {
 
     private ListView mListview;
@@ -61,7 +58,6 @@ public class MainActivity extends FragmentActivity {
     private TextView mTv_learnedNum;
     private TextView mTv_reciteNum;
     private TextView mTv_unlearnedNum;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

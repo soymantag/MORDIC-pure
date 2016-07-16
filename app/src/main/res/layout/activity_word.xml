@@ -23,6 +23,20 @@
         </android.support.v4.view.ViewPager>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/space"
+        android:visibility="gone"
+        android:text="空"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="70dp"/>
+
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
@@ -47,30 +61,31 @@
             android:text="单词本"
             android:textColor="#ffffffff"
             android:textSize="20sp"/>
+
         <ImageView
-            android:id="@+id/iv_menu"
-            android:src="@mipmap/icon_menu"
+            android:id="@+id/iv_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"/>
+            android:src="@mipmap/icon_menu"/>
 
     </RelativeLayout>
-<!--<TextView
-    android:id="@+id/shift"
-    android:text="只显示未学习单词"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginBottom="20dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>-->
-    <ImageView
-        android:id="@+id/iv_shift"
-        android:src="@mipmap/tab_normal_square"
+    <!--<TextView
+        android:id="@+id/shift"
+        android:text="只显示未学习单词"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>-->
+    <ImageView
+        android:id="@+id/iv_shift"
         android:layout_width="25dp"
-        android:layout_height="25dp"/>
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:src="@mipmap/tab_normal_square"/>
 
 </RelativeLayout>

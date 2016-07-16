@@ -1,7 +1,6 @@
 package com.chris.mordic.conf;
 
 /**
- * Created by chris on 16-5-24.
  * Email: soymantag@163.coom
  */
 public class Constants {
