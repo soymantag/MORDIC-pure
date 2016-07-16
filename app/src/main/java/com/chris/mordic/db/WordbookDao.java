@@ -51,6 +51,13 @@ public class WordbookDao {
         db.delete(wordbook,"word=?",new String[]{word});
         db.close();
     }
+    public void update(String wordbook,String word,String learn_state){
+        SQLiteDatabase db = mWordDbOpenHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("learn_state", learn_state);
+        db.update(wordbook,values,"word=?",new String[]{word});
+        db.close();
+    }
     public int getTotalRows(String table){
         SQLiteDatabase db = mWordDbOpenHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select count(1) from "+table,null);
@@ -73,11 +80,10 @@ public class WordbookDao {
         db.close();
         return words;
     }
-    public String getLearnState(String table){
+    public String getLearnState(String table,String word){
         String state="";
         SQLiteDatabase db = mWordDbOpenHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select learn_state from "+table,null);
-
+        Cursor cursor = db.rawQuery("select learn_state from "+table+" where word=?" ,new String[]{word});
         while(cursor.moveToNext()){
             state=cursor.getString(0);
         }

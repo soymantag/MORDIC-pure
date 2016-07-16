@@ -15,10 +15,10 @@
             android:id="@+id/vp_word"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="70dp"
             android:clipChildren="false">
         </android.support.v4.view.ViewPager>
     </RelativeLayout>
@@ -32,22 +32,45 @@
         <ImageButton
             android:id="@+id/arrow_pre"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:background="#00000000"
-            android:src="@mipmap/arrow_pre"
-            android:visibility="gone"/>
+            android:src="@mipmap/arrow_pre"/>
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/arrow_pre"
-            android:text="生词本"
+            android:text="单词本"
             android:textColor="#ffffffff"
             android:textSize="20sp"/>
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:src="@mipmap/icon_menu"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"/>
 
+    </RelativeLayout>
+<!--<TextView
+    android:id="@+id/shift"
+    android:text="只显示未学习单词"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>-->
+    <ImageView
+        android:id="@+id/iv_shift"
+        android:src="@mipmap/tab_normal_square"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
 
 </RelativeLayout>

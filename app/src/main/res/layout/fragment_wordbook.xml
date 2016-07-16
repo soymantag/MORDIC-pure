@@ -17,11 +17,13 @@
         android:background="#efefef">
 
         <TextView
+            android:visibility="gone"
             style="@style/tab_style"
             android:text="提醒"
             />
 
         <TextView
+            android:visibility="gone"
             style="@style/tab_style"
             android:text="创建生词本"
 
