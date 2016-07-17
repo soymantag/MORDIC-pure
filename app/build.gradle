@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        mordic_pure {
+            keyAlias 'mordic_pure'
+            keyPassword 'mordic_pure'
+            storeFile file('/home/chris/Desktop/mordic/keyStore/mordic_pure_key.jks')
+            storePassword 'mordic_pure'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "24.0.0 rc3"
     defaultConfig {
@@ -12,11 +20,26 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
+        anzhi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "anzhi"]
+        }
+        android {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "android"]
+        }
+        xiaomi {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+        }
+        wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+        }
+        s360 {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "s360"]
+        }
     }
 }
 
@@ -34,4 +57,5 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

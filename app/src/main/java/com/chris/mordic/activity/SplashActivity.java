@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.chris.mordic.R;
 import com.chris.mordic.utils.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class SplashActivity extends Activity {
 
@@ -87,5 +88,13 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 /*        mIv_spinner = (ImageView) findViewById(R.id.iv_splash_spinner);*/
         mRl_splash = (RelativeLayout) findViewById(R.id.rl_splash);
+    }
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

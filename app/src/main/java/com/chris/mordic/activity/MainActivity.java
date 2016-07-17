@@ -29,6 +29,7 @@ import com.chris.mordic.db.WordbookListDao;
 import com.chris.mordic.protocol.WordProtocol;
 import com.chris.mordic.utils.SwipeView;
 import com.chris.mordic.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -239,10 +240,14 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         initData();
         initNum();
     }
-
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {

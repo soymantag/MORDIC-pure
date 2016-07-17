@@ -28,6 +28,7 @@ import com.chris.mordic.data.WordbookBean;
 import com.chris.mordic.db.WordDao;
 import com.chris.mordic.db.WordbookDao;
 import com.chris.mordic.db.WordbookListDao;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -406,7 +407,14 @@ public class WordActivity extends Activity{
             }
         }
     }
-
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
 
 }

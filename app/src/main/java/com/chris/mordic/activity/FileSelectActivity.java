@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chris.mordic.R;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -143,5 +144,13 @@ public class FileSelectActivity extends ListActivity {
 		setResult(RESULT_OK, intent);
 		finish();
 	}
-};
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+}
 
