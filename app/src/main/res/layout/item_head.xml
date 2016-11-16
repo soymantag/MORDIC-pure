@@ -6,11 +6,11 @@
 
 
     <!-- 轮播图 -->
-    <com.chris.mordic.ui.MyViewPager
+    <com.chris.mordic_pure.ui.MyViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.chris.mordic.ui.MyViewPager>
+    </com.chris.mordic_pure.ui.MyViewPager>
 
 
     <!-- 指针容器 -->

@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.chris.mordic.utils.SwipeView
+    <com.chris.mordic_pure.utils.SwipeView
         android:id="@+id/item_sv"
         android:layout_width="match_parent"
         android:layout_height="40dp">
@@ -16,6 +16,6 @@
         <!-- 删除区域 -->
 
         <include layout="@layout/swipeitem_right"/>
-    </com.chris.mordic.utils.SwipeView>
+    </com.chris.mordic_pure.utils.SwipeView>
 
 </LinearLayout>

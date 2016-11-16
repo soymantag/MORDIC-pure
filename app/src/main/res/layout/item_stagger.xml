@@ -21,7 +21,7 @@
                             android:layout_height="wrap_content"
                             android:scaleType="center"
                             android:src="@mipmap/ic_launcher"/>-->
-            <com.chris.mordic.ui.RatioLayout
+            <com.chris.mordic_pure.ui.RatioLayout
                 android:id="@+id/item_straggered_ratioLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/image20130506"/>
-            </com.chris.mordic.ui.RatioLayout>
+            </com.chris.mordic_pure.ui.RatioLayout>
 
             <TextView
                 android:id="@+id/item_straggered_tv"

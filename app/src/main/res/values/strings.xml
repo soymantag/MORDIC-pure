@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MORDIC</string>
+    <string name="app_name">MORDIC-pure</string>
     <string name="action_feed">意见反馈</string>
     <string name="action_group_chat">发起群聊</string>
     <string name="action_add_friend">添加朋友</string>
