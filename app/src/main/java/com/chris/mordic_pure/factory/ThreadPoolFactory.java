@@ -12,7 +12,7 @@ package com.chris.mordic_pure.factory;
  */
 public class ThreadPoolFactory {
 	static ThreadPoolProxy	mNormalPool;
-	static ThreadPoolProxy	mDownLoadPool;
+	static ThreadPoolProxy	mDownLoadPool;  
 
 	/**得到一个普通的线程池*/
 	public static ThreadPoolProxy getNormalPool() {
